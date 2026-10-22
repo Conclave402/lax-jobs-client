@@ -1,7 +1,7 @@
 {
   "name": "@godman-protocols/lax",
   "version": "0.4.0",
-  "description": "Linked Agent eXchange — agent capability discovery protocol",
+  "description": "Linked Agent eXchange \u2014 agent capability discovery protocol",
   "type": "module",
   "main": "dist/index.js",
   "exports": "./dist/index.js",
@@ -14,7 +14,8 @@
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "test": "npx tsx smoke.test.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:jobs": "tsx --test test/jobs.test.ts"
   },
   "keywords": [
     "agent-discovery",

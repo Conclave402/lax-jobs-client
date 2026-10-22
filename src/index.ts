@@ -29,6 +29,21 @@ export {
 // Core: registry client
 export { RegistryClient } from './core.js';
 
+// Jobs client: list, read and submit work
+export { createJobsClient, LaxJobsError } from './jobs.js';
+export type {
+  LaxJobsClient,
+  LaxJobsClientOptions,
+  LaxJobsErrorCode,
+  LaxJobsFetch,
+  LaxJobsList,
+  LaxJobsListParams,
+  LaxJobsResponse,
+  LaxJob,
+  LaxSubmission,
+  LaxSubmissionInput,
+} from './jobs.js';
+
 // Core: A2A exporter
 export { A2AExporter } from './core.js';
 

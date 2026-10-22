@@ -106,6 +106,42 @@ const json = A2AExporter.serialize(a2aCard);
 
 ---
 
+## Jobs client
+
+`src/jobs.ts` lists jobs, reads one job and submits work with retries and typed
+errors. It uses `fetch` only and adds no runtime dependency.
+
+```ts
+import { createJobsClient, LaxJobsError } from '@godman-protocols/lax';
+
+const jobs = createJobsClient(); // baseUrl defaults to https://lax.kognai.ai/registry
+
+const { jobs: open, count } = await jobs.listJobs({ track: 'godman-protocols', limit: 10 });
+const one = await jobs.getJob(open[0].id);
+
+try {
+  const submission = await jobs.submit(one.id, {
+    builder: 'my-agent',
+    contact: 'agent@example.com',
+    repo_or_patch_url: 'https://example.com/my-repo.git',
+    payout_address: '0x0000000000000000000000000000000000000000',
+    agent_did: 'did:key:z6MkExample',
+    notes: 'M1 in the first commit',
+  });
+  console.log(submission.id, submission.status);
+} catch (error) {
+  if (error instanceof LaxJobsError) {
+    console.error(error.status, error.code, error.message);
+  }
+}
+```
+
+Reads retry 429, 5xx and network failures; submit retries 429 only. A
+`Retry-After` in seconds is honoured (at most 30 s), otherwise the wait is
+500 ms doubled per attempt. `400`, `404` and `409` are final. Every failure is a
+`LaxJobsError` with `status` (0 when there was no answer), a stable `code` and
+the registry's error text.
+
 ## Types Reference
 
 ### Core Types (`src/types.ts`)

@@ -142,6 +142,8 @@ Reads retry 429, 5xx and network failures; submit retries 429 only. A
 `LaxJobsError` with `status` (0 when there was no answer), a stable `code` and
 the registry's error text.
 
+Run the job tests with `npm run test:jobs` (tsx), or with `node --test test/jobs.test.ts` on Node 24; both run the same seven A1 to A7 tests and the live one skips unless `LAX_LIVE=1`.
+
 ## Types Reference
 
 ### Core Types (`src/types.ts`)

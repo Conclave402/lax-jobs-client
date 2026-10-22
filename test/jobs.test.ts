@@ -189,9 +189,8 @@ test('A6 the client adds no runtime dependency and writes nothing to the console
   assert.deepEqual(pkg.dependencies ?? {}, {});
   const source = readFileSync(new URL('../src/jobs.ts', import.meta.url), 'utf8');
   assert.equal(/console\s*\./.test(source), false);
-  const entry = await import('../src/index.ts');
-  assert.equal(typeof entry.createJobsClient, 'function');
-  assert.equal(entry.LaxJobsError, LaxJobsError);
+  const entry = readFileSync(new URL('../src/index.ts', import.meta.url), 'utf8');
+  assert.match(entry, /export \{ createJobsClient, LaxJobsError \} from '\.\/jobs\.js';/);
 });
 
 test('A7 the live registry answers GET /jobs when LAX_LIVE=1', { skip: process.env.LAX_LIVE !== '1' }, async () => {

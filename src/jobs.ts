@@ -172,9 +172,7 @@ function withTimeout<T>(work: Promise<T>, timeoutMs: number): Promise<T> {
   if (!timeoutMs || !Number.isFinite(timeoutMs)) return work;
   return new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(`request timed out after ${timeoutMs} ms`)), timeoutMs);
-    if (typeof (timer as { unref?: () => void }).unref === 'function') {
-      (timer as { unref: () => void }).unref();
-    }
+    (timer as unknown as { unref?: () => void }).unref?.();
     work.then(
       (value) => {
         clearTimeout(timer);
